@@ -2,10 +2,13 @@
   "name": "so_visitor",
   "version": "1.0.0",
   "main": "index.js",
-  "author": ["Deliaz", "arudzinska"],
+  "author": [
+    "Deliaz",
+    "arudzinska"
+  ],
   "license": "MIT",
   "dependencies": {
-    "nodemailer": "^3.5.2",
+    "nodemailer": "^4.6.8",
     "nightmare": "^2.10.0"
   }
 }

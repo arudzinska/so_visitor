@@ -1,67 +1,83 @@
 const Nightmare = require('nightmare');
-const Mailgun = require('mailgun-js');
 
 const confFile = require('./conf.json');
 
+const nodemailer = require('nodemailer');
+
 const nightmare = Nightmare({show: false});
-
-let mailgun = null;
-if (confFile.mailgun_api_key && confFile.mailgun_domain) {
-    mailgun = Mailgun({
-        apiKey: confFile.mailgun_api_key,
-        domain: confFile.mailgun_domain
-    });
-}
-
 
 const LOGIN_PAGE = 'https://stackoverflow.com/users/login';
 
+
 function processResult(text) {
-    if (mailgun) {
-        mailgun
-            .messages()
-            .send({
-                from: 'SO Visitor <no-reply@mailgun.org>',
-                to: confFile.email,
-                subject: `Stackoverflow visiting report (${text})`,
-                text: `Hi man. Thats your stat for now: ${text}`
-            }, (error, body) => {
-                if (error) {
-                    throw error;
-                }
-            });
+    if (confFile.email && confFile.email_password) {
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: confFile.email,
+                pass: confFile.email_password
+            }
+        });
+
+        var mailOptions = {
+            from: confFile.email,
+            to: confFile.email,
+            subject: `Stackoverflow visiting report`,
+            text: `Hello there. Your stat for now: ${text}`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                    console.log(error);
+            } else {
+                    console.log('Email sent: ' + info.response);
+            }
+        });
     }
 }
 
 function processError(errText) {
-    if (mailgun) {
-        mailgun
-            .messages()
-            .send({
-                from: 'SO Visitor <no-reply@mailgun.org>',
-                to: confFile.email,
-                subject: `Stackoverflow visiting report (Error)`,
-                text: `Something went wrong: ${errText}`
-            }, (error, body) => {
-                if (error) {
-                    throw error;
-                }
-            });
+    if (confFile.email && confFile.email_password) {
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: confFile.email,
+                pass: confFile.email_password
+            }
+        });
+
+        var mailOptions = {
+            from: confFile.email,
+            to: confFile.email,
+            subject: `Stackoverflow visiting report (Error)`,
+            text: `Oopsie-woopsie. Something went wrong: ${errText}`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                    console.log(error);
+            } else {
+                    console.log('Email sent: ' + info.response);
+            }
+        });
     }
 }
+
+const m = confFile.so_email;
+const p = confFile.so_password;
 
 nightmare
     .goto(LOGIN_PAGE)
     .wait('#login-form')
-    .type('#email', confFile.email)
-    .type('#password', confFile.password)
+    .type('#email', m)
+    .type('#password', p)
     .click('#submit-button')
     .wait('a.my-profile')
     .click('a.my-profile')
     .wait('#top-cards')
     .evaluate(() => {
-        const el = document.querySelector('#top-cards span.-count');
-        return el ? el.innerText : 'null';
+        const el = document.getElementsByClassName('grid--cell ml-auto fs-caption')[0].innerText;
+        return el;
     })
     .end()
     .then(progressText => {

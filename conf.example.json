@@ -1,6 +1,6 @@
 {
-  "email": "your@email",
-  "password": "youpassword",
-  "mailgun_api_key": "",
-  "mailgun_domain": ""
+  "email": "your@email.com",
+  "email_password": "password",
+  "so_email": "so_login@email.com",
+  "so_password": "so_password"
 }

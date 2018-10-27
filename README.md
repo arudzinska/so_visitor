@@ -1,5 +1,6 @@
 ## so_visitor
 Node.js bot, that allows you to get "Fanatic" badge in StackOverflow. 
+Edit by arudzinska: changed mailgun to nodemail, 
 
 ### Requires
 1. Nightmare.js

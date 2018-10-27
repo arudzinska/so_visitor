@@ -2,10 +2,10 @@
   "name": "so_visitor",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Deliaz",
+  "author": ["Deliaz", "arudzinska"],
   "license": "MIT",
   "dependencies": {
-    "mailgun-js": "^0.10.1",
+    "nodemailer": "^3.5.2",
     "nightmare": "^2.10.0"
   }
 }

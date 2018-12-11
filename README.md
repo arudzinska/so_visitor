@@ -1,7 +1,10 @@
 ## so_visitor
+
+**NOTE from @arudzinska**: This bot did not work well for me as of autumn'18 (headless mode bugs with Xvfb), therefore I created my own in Python: https://github.com/arudzinska/stackoverflow_golden_bot
+
 Node.js bot, that allows you to get "Fanatic" badge in StackOverflow. 
 
-Edit by arudzinska: changed mailgun to nodemail, so that you don't need a mailgun account.
+Edit by @arudzinska: changed mailgun to nodemail, so that you don't need a mailgun account.
 
 ### Requires
 1. Nightmare.js
